@@ -1,12 +1,16 @@
 module.exports = {
+    args: true,
+    guildOnly: true,
+    botpermissions: ['ADD_REACTIONS', 'MANAGE_MESSAGES'],
     category: 'Fun',
     name: 'tictactoe',
-    description: 'Play tictactoe by mentioning someone ;D',
+    description: 'Play the classic game tictactoe with a user by mentioning them!',
     aliases: ['ttt'],
-    usage: '<user>',
-    example: ['tictactoe @notbeer'],
+    usage: '<@user>',
+    example: [
+        'tictactoe @testUser#1234'
+    ],
     cooldown: 30,
-    guildOnly: true,
 	async execute(message, args, bot) {
         const reactions = {"1️⃣": 1, "2️⃣": 2, "3️⃣": 3, "4️⃣": 4, "5️⃣": 5, "6️⃣": 6, "7️⃣": 7, "8️⃣": 8, "9️⃣": 9 };
         const width = 3;
@@ -58,7 +62,8 @@ module.exports = {
 
         //!EXECUTION
         if(message.mentions.members.first()) {
-        if(message.mentions.members.first().id == message.author.id) return message.reply('you can\'t play with yourself silly');
+        if(message.mentions.members.first().id == message.author.id) return message.reply('you can\'t play with yourself, silly');
+        if(message.mentions.members.first().user.bot) return message.reply('you can\'t play with a bot');
             for (let i = 0; i < height; i++) {
                 for (let j = 0; j < width; j++) {
                     gameBoard[i * width + j] = '⬜';

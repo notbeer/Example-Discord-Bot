@@ -1,4 +1,7 @@
 {
     "token": "TOKEN",
-    "prefix": "+"
+    "prefix": "+",
+    "bot-owners": [
+        "606353040336748584"
+    ]
 }

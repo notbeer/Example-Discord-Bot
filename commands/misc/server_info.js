@@ -1,8 +1,9 @@
 const Discord = require("discord.js");
-const colors = require('../../bot_settings/colors.json');
 const moment = require("moment");
 
 module.exports = {
+    guildOnly: true,
+    botpermissions: ['EMBED_LINKS'],
     category: 'Misc',
     name: 'serverinfo',
     aliases: [
@@ -11,9 +12,8 @@ module.exports = {
     ],
     description: 'Get information about the guild',
     cooldown: 60,
-    guildOnly: true,
 	async execute(message, args, bot) {
-        function trimArray(arr, maxLen = 10) {
+        function trimArray(arr, maxLen = 20) {
             if (arr.length > maxLen) {
                 const len = arr.length - maxLen;
                 arr = arr.slice(0, maxLen);
@@ -89,21 +89,21 @@ module.exports = {
         let location = region[message.guild.region];
         
         const serverinfo = new Discord.MessageEmbed()
-            .setColor(colors.lightblue)
+            .setColor("#36393f")
             .setThumbnail(icon)
             .setAuthor(message.author.username, message.author.displayAvatarURL())
             .setTitle(message.guild.name)
             .setDescription(`**Server ID: ** \`${message.guild.id}\` \n**Server Region: ** \`${location}\``)
-            .addField(`**Verification Level: ** \n\`${verificationLevels[message.guild.verificationLevel]}\``, `**Explicit Filter:  **\`${filterLevels[message.guild.explicitContentFilter]}\``)
-            .addField(`**Server Boost Tier: ** \`${message.guild.premiumTier ? `Level ${message.guild.premiumTier}` : 'Level 0'}\``, `\nTotal Boosts: \`${message.guild.premiumSubscriptionCount || '0'}\``)
-            .addField(`**Server Owner: ** \`${message.guild.owner.user.tag}\``, `\nServer Owners ID: \`${message.guild.owner.user.id}\``)
+            .addField(`**Verification Level: ** \`${verificationLevels[message.guild.verificationLevel]}\``, `**Explicit Filter:  **\`${filterLevels[message.guild.explicitContentFilter]}\``)
+            .addField(`**Server Boost Tier: ** \`${message.guild.premiumTier ? `Level ${message.guild.premiumTier}` : 'Level 0'}\``, `\n**Total Boosts: **\`${message.guild.premiumSubscriptionCount || '0'}\``)
+            .addField(`**Server Owner: **`, `\`${message.guild.owner.user.tag}\` (\`${message.guild.owner.user.id}\`)`)
             .addField("**Date Created: **", moment(message.guild.createdAt).format("LLLL") + "" + `\nMade **${Math.floor((Date.now() - message.guild.createdAt) / 86400000)}** day(s) ago`)
             .addField(`**Total Category: ** ${category}`, `Total Channels: ${totalchan} \nText: ${text} \nVoice: ${vc}`)
             .addField(`**Total Emojis: ** ${emojis.size}`, `Regular Emojis: ${emojis.filter(emoji => !emoji.animated).size} \nAnimated Emojis: ${emojis.filter(emoji => emoji.animated).size}`)
             .addField(`**Total Users: ** ${total}`, `\nMembers: ${people} \nBots: ${robot} \nOnline: ${online} \nIdle: ${idle} \nDo Not Disturb: ${dnd} \nOffline: ${offline}`)
-            .addField(`**Roles: ** [${roles.length - 1}]`, roles.length < 10 ? roles.join(', ') : roles.length > 10 ? trimArray(roles) : 'None')
-            .setTimestamp(new Date())
-            .setFooter(`${bot.user.username}`, bot.user.displayAvatarURL()); 
+            .addField(`**Roles: ** [${roles.length - 1}]`, roles.length < 20 ? roles.join(', ') : trimArray(roles).join(', '))
+            .setFooter(`${bot.user.username}`, bot.user.displayAvatarURL())
+            .setTimestamp()
         message.channel.send({embed: serverinfo})
 	},
 };
