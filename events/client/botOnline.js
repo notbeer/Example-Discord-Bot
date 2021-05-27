@@ -20,7 +20,7 @@ module.exports = {
                 statusMessage: `over ${bot.guilds.cache.size} servers`
             },
             {
-                statusType: "STREAMING",
+                statusType: "LISTENING",
                 statusMessage: `to ${bot.channels.cache.size} channels`
             },
             {
